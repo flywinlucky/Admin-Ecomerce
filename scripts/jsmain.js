@@ -2,11 +2,17 @@ let categories = [];
 let productCounter = 1; // Counter for unique product IDs
 let categoryCounter = 1; // Counter for unique category IDs
 
+document.addEventListener("DOMContentLoaded", () => {
+    loadCategories();
+    loadProducts();
+});
+
 function addCategory() {
     const categoryName = document.getElementById('categoryName').value.trim();
     if (categoryName) {
         categories.push(categoryName);
         updateCategories();
+        saveCategories(); // Save categories to Local Storage
         document.getElementById('categoryName').value = ''; // Clear input
     } else {
         alert("Introduceți un nume valid pentru categorie.");
@@ -24,6 +30,18 @@ function updateCategories() {
         categoryButton.onclick = () => selectCategory(category, index);
         categoriesContainer.appendChild(categoryButton);
     });
+}
+
+function saveCategories() {
+    localStorage.setItem('categories', JSON.stringify(categories)); // Save categories to Local Storage
+}
+
+function loadCategories() {
+    const storedCategories = localStorage.getItem('categories');
+    if (storedCategories) {
+        categories = JSON.parse(storedCategories);
+        updateCategories();
+    }
 }
 
 function selectCategory(category, index) {
@@ -72,9 +90,38 @@ function saveProduct() {
         .then(response => response.json())
         .then(data => {
             alert(data.message);
+            displayProduct(product); // Display the saved product in the admin panel
             resetProductForm(); // Reset form after saving
         })
         .catch(error => console.error('Eroare:', error));
+}
+
+function loadProducts() {
+    fetch('json/products.json')
+        .then(response => response.json())
+        .then(products => {
+            products.forEach(product => {
+                displayProduct(product);
+            });
+        })
+        .catch(error => console.error('Error loading products:', error));
+}
+
+function displayProduct(product) {
+    const productsContainer = document.getElementById('productsContainer');
+
+    const productDiv = document.createElement('div');
+    productDiv.className = 'product';
+    productDiv.innerHTML = `
+        <h3>${product.name}</h3>
+        <p>ID: ${product.id}</p>
+        <p>Price: ${product.price} MDL</p>
+        <p>Description: ${product.description}</p>
+        <p>Category: ${product.category}</p>
+        <p>Images: ${product.images.join(', ')}</p>
+    `;
+
+    productsContainer.appendChild(productDiv);
 }
 
 function resetProductForm() {
