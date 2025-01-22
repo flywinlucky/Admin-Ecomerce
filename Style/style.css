@@ -70,16 +70,34 @@ button:hover {
 
 .categoryButton {
     margin: 5px;
-    padding: 10px 20px;
+    padding: 5px 10px; /* Smaller padding */
     border: none;
     background-color: #28a745;
     color: white;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 14px; /* Smaller font size */
 }
 
 .categoryButton:hover {
     background-color: #218838;
+}
+
+#addCategoryButton {
+    padding: 5px 10px; /* Smaller padding */
+    font-size: 14px; /* Smaller font size */
+}
+
+#filterContainer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#filterDropdown {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
 }
 
 #productsContainer {

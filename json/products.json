@@ -1,57 +1,27 @@
 [
     {
-        "id": "1-1",
-        "name": "inel 1",
-        "price": "",
-        "images": [
-            ""
-        ],
-        "category": "inele",
-        "description": "fwrf",
-        "isTrending": false,
-        "old_price": null,
-        "out_Of_stock": false,
-        "isNew": false,
-        "product_sizes": null
-    },
-    {
         "id": "1-2",
-        "name": "ff",
-        "price": "",
+        "name": "item 1 cat 1",
+        "price": "1200",
         "images": [
             ""
         ],
-        "category": "huiznai",
-        "description": "",
+        "category": "cat 1",
+        "description": "sfwerf",
         "isTrending": false,
         "old_price": null,
-        "out_Of_stock": false,
-        "isNew": false,
+        "out_Of_stock": true,
+        "isNew": true,
         "product_sizes": null
     },
     {
-        "id": "1-3",
-        "name": "rfrf",
-        "price": "333",
+        "id": "1-1",
+        "name": "y5gtr",
+        "price": "3",
         "images": [
             ""
         ],
-        "category": "huiznai",
-        "description": "",
-        "isTrending": false,
-        "old_price": null,
-        "out_Of_stock": false,
-        "isNew": false,
-        "product_sizes": null
-    },
-    {
-        "id": "1-4",
-        "name": "ffr",
-        "price": "2",
-        "images": [
-            ""
-        ],
-        "category": "huiznai",
+        "category": "cat 2",
         "description": "",
         "isTrending": false,
         "old_price": null,

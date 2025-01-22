@@ -14,11 +14,18 @@
     <div>
         <h2>Categorii</h2>
         <input type="text" id="categoryName" placeholder="Introduceți numele categoriei">
-        <button type="button" onclick="addCategory()">Adaugă categorie</button>
+        <button type="button" id="addCategoryButton" onclick="addCategory()">Adaugă categorie</button>
     </div>
 
     <div id="categoriesContainer">
         <!-- Categoriile vor fi adăugate aici -->
+    </div>
+
+    <div id="filterContainer">
+        <label for="filterDropdown">Filtrează după categorie:</label>
+        <select id="filterDropdown">
+            <!-- Options will be populated dynamically -->
+        </select>
     </div>
 
     <div id="overlay"></div> <!-- Overlay for dimming background -->

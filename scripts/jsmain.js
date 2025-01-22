@@ -6,6 +6,7 @@ let categoryCounter = 1; // Counter for unique category IDs
 document.addEventListener("DOMContentLoaded", () => {
     loadCategories();
     loadProducts();
+    populateFilterDropdown();
 });
 
 function addCategory() {
@@ -106,7 +107,7 @@ function saveProduct() {
     }
 
     saveProductsToJSON(); // Save products to JSON
-    displayProduct(product); // Display the product in the admin panel
+    displayAllProducts(); // Refresh product display after saving
     resetProductForm(); // Reset form after saving
 }
 
@@ -206,9 +207,8 @@ function deleteProduct(productId) {
             alert("Produsul nu a fost găsit.");
         }
     }
+    displayAllProducts(); // Refresh product display after deleting
 }
-
-
 
 function saveProductsToJSON() {
     fetch('save_product.php', {
@@ -227,4 +227,38 @@ function saveProductsToJSON() {
         }
     })
     .catch(error => console.error('Eroare:', error));
+}
+
+function populateFilterDropdown() {
+    const filterDropdown = document.getElementById('filterDropdown');
+    filterDropdown.innerHTML = '<option value="">Toate categoriile</option>'; // Default option
+
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        filterDropdown.appendChild(option);
+    });
+
+    filterDropdown.addEventListener('change', () => {
+        const selectedCategory = filterDropdown.value;
+        if (selectedCategory) {
+            filterProductsByCategory(selectedCategory);
+        } else {
+            displayAllProducts();
+        }
+    });
+}
+
+function displayAllProducts() {
+    const productsContainer = document.getElementById('productsContainer');
+    productsContainer.innerHTML = ''; // Clear previous products
+
+    products.forEach(product => {
+        displayProduct(product); // Display each product
+    });
+
+    if (products.length === 0) {
+        productsContainer.innerHTML = '<p>Nu există produse disponibile.</p>';
+    }
 }
