@@ -17,6 +17,7 @@ function addCategory() {
         updateCategories();
         saveCategories(); // Save categories to Local Storage
         document.getElementById('categoryName').value = ''; // Clear input
+        populateFilterDropdown(); // Update filter dropdown
     } else {
         alert("Introduceți un nume valid pentru categorie.");
     }
@@ -60,6 +61,7 @@ function deleteCategory(category, index) {
         // Update the UI
         updateCategories();
         displayAllProducts();
+        populateFilterDropdown(); // Update filter dropdown
     }
 }
 
@@ -72,6 +74,7 @@ function loadCategories() {
     if (storedCategories) {
         categories = JSON.parse(storedCategories);
         updateCategories();
+        populateFilterDropdown(); // Update filter dropdown
     }
 }
 
