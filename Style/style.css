@@ -97,11 +97,6 @@ button:hover {
     margin: 10px;
     width: calc(30% - 20px); /* Responsive width */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s; /* Smooth hover effect */
-}
-
-.product:hover {
-    transform: translateY(-5px); /* Raise product card on hover */
 }
 
 .product h3 {
