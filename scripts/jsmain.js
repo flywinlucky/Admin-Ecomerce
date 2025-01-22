@@ -1,4 +1,5 @@
 let categories = [];
+let products = []; // Lista de produse
 let productCounter = 1; // Counter for unique product IDs
 let categoryCounter = 1; // Counter for unique category IDs
 
@@ -80,28 +81,26 @@ function saveProduct() {
         product_sizes: product_sizes.length > 0 ? product_sizes : null // Allow empty array
     };
 
-    fetch('save_product.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(product)
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            displayProduct(product); // Display the saved product in the admin panel
-            resetProductForm(); // Reset form after saving
-        })
-        .catch(error => console.error('Eroare:', error));
+    // If editing, update the product in the array
+    const existingProductIndex = products.findIndex(prod => prod.id === id);
+    if (existingProductIndex !== -1) {
+        products[existingProductIndex] = product; // Update the existing product
+    } else {
+        products.push(product); // Add new product if not editing
+    }
+
+    saveProductsToJSON(); // Save products to JSON
+    displayProduct(product); // Display the product in the admin panel
+    resetProductForm(); // Reset form after saving
 }
 
 function loadProducts() {
     fetch('json/products.json')
         .then(response => response.json())
-        .then(products => {
-            products.forEach(product => {
-                displayProduct(product);
+        .then(data => {
+            products = data; // Save the products to the global variable
+            data.forEach(product => {
+                displayProduct(product); // Display each product
             });
         })
         .catch(error => console.error('Error loading products:', error));
@@ -126,21 +125,63 @@ function displayProduct(product) {
     productsContainer.appendChild(productDiv);
 }
 
-
 function resetProductForm() {
     document.getElementById('productForm').reset(); // Reset all form fields
     document.getElementById('itemFormContainer').style.display = 'none'; // Hide the product form
 }
 
 function editProduct(productId) {
-    alert(`Funcția de editare pentru produsul cu ID: ${productId} trebuie implementată.`);
-    // Aici poți adăuga logica pentru a edita produsul
+    const product = products.find(prod => prod.id === productId);
+    if (product) {
+        document.getElementById('id').value = product.id;
+        document.getElementById('name').value = product.name;
+        document.getElementById('price').value = product.price;
+        document.getElementById('images').value = product.images.join(', ');
+        document.getElementById('description').value = product.description;
+        document.getElementById('old_price').value = product.old_price || '';
+        document.getElementById('isTrending').checked = product.isTrending || false;
+        document.getElementById('out_Of_stock').checked = product.out_Of_stock || false;
+        document.getElementById('isNew').checked = product.isNew || false;
+        document.getElementById('product_sizes').value = product.product_sizes ? product.product_sizes.join(', ') : '';
+
+        document.getElementById('itemFormContainer').style.display = 'block'; // Show form for editing
+    } else {
+        alert("Produsul nu a fost găsit.");
+    }
 }
 
 function deleteProduct(productId) {
     const confirmation = confirm(`Sigur doriți să ștergeți produsul cu ID: ${productId}?`);
     if (confirmation) {
-        // Aici poți adăuga logica pentru a șterge produsul
-        alert(`Produsul cu ID: ${productId} a fost șters.`);
+        // Find the product index
+        const productIndex = products.findIndex(product => product.id === productId);
+        if (productIndex !== -1) {
+            products.splice(productIndex, 1); // Remove the product from the array
+            saveProductsToJSON(); // Update the JSON file
+            document.getElementById('productsContainer').innerHTML = ''; // Clear products display
+            products.forEach(product => displayProduct(product)); // Redisplay remaining products
+            alert(`Produsul cu ID: ${productId} a fost șters.`);
+        } else {
+            alert("Produsul nu a fost găsit.");
+        }
     }
+}
+
+function saveProductsToJSON() {
+    fetch('save_product.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(products) // Send the updated products list
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            console.log("Produse salvate cu succes în JSON.");
+        } else {
+            console.error("Eroare la salvarea produselor:", data.message);
+        }
+    })
+    .catch(error => console.error('Eroare:', error));
 }
