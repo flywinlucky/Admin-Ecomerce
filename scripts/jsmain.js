@@ -119,12 +119,28 @@ function displayProduct(product) {
         <p>Description: ${product.description}</p>
         <p>Category: ${product.category}</p>
         <p>Images: ${product.images.join(', ')}</p>
+        <button class="editButton" onclick="editProduct('${product.id}')">Editează</button>
+        <button class="deleteButton" onclick="deleteProduct('${product.id}')">Șterge</button>
     `;
 
     productsContainer.appendChild(productDiv);
 }
 
+
 function resetProductForm() {
     document.getElementById('productForm').reset(); // Reset all form fields
     document.getElementById('itemFormContainer').style.display = 'none'; // Hide the product form
+}
+
+function editProduct(productId) {
+    alert(`Funcția de editare pentru produsul cu ID: ${productId} trebuie implementată.`);
+    // Aici poți adăuga logica pentru a edita produsul
+}
+
+function deleteProduct(productId) {
+    const confirmation = confirm(`Sigur doriți să ștergeți produsul cu ID: ${productId}?`);
+    if (confirmation) {
+        // Aici poți adăuga logica pentru a șterge produsul
+        alert(`Produsul cu ID: ${productId} a fost șters.`);
+    }
 }
