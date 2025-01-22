@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCategories();
     loadProducts();
     populateFilterDropdown();
+    setupSearch();
 });
 
 function addCategory() {
@@ -77,26 +78,40 @@ function saveProduct() {
     const category = document.getElementById('selectedCategory').textContent;
     const description = document.getElementById('description').value;
 
-    // Get optional fields
-    const isTrending = document.getElementById('isTrending').checked;
-    const old_price = document.getElementById('old_price').value || null; // Allow empty
-    const out_Of_stock = document.getElementById('out_Of_stock').checked;
-    const isNew = document.getElementById('isNew').checked;
-    const product_sizes = document.getElementById('product_sizes').value.split(',').map(size => size.trim()).filter(size => size !== '');
-
     const product = {
         id: id,
         name: name,
         price: price,
         images: images,
         category: category,
-        description: description,
-        isTrending: isTrending,
-        old_price: old_price,
-        out_Of_stock: out_Of_stock,
-        isNew: isNew,
-        product_sizes: product_sizes.length > 0 ? product_sizes : null // Allow empty array
+        description: description
     };
+
+    // Get optional fields and add them only if they are set
+    const isTrending = document.getElementById('isTrending').checked;
+    if (isTrending) {
+        product.isTrending = isTrending;
+    }
+
+    const old_price = document.getElementById('old_price').value;
+    if (old_price) {
+        product.old_price = old_price;
+    }
+
+    const out_Of_stock = document.getElementById('out_Of_stock').checked;
+    if (out_Of_stock) {
+        product.out_Of_stock = out_Of_stock;
+    }
+
+    const isNew = document.getElementById('isNew').checked;
+    if (isNew) {
+        product.isNew = isNew;
+    }
+
+    const product_sizes = document.getElementById('product_sizes').value.split(',').map(size => size.trim()).filter(size => size !== '');
+    if (product_sizes.length > 0) {
+        product.product_sizes = product_sizes;
+    }
 
     // If editing, update the product in the array
     const existingProductIndex = products.findIndex(prod => prod.id === id);
@@ -260,5 +275,32 @@ function displayAllProducts() {
 
     if (products.length === 0) {
         productsContainer.innerHTML = '<p>Nu există produse disponibile.</p>';
+    }
+}
+
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        searchProducts(query);
+    });
+}
+
+function searchProducts(query) {
+    const productsContainer = document.getElementById('productsContainer');
+    productsContainer.innerHTML = ''; // Clear previous products
+
+    const filteredProducts = products.filter(product => {
+        return product.name.toLowerCase().includes(query) ||
+               product.id.toLowerCase().includes(query) ||
+               product.price.toString().includes(query);
+    });
+
+    filteredProducts.forEach(product => {
+        displayProduct(product); // Display each matching product
+    });
+
+    if (filteredProducts.length === 0) {
+        productsContainer.innerHTML = '<p>Nu există produse care să corespundă căutării.</p>';
     }
 }

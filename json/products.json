@@ -1,32 +1,12 @@
 [
     {
-        "id": "1-2",
-        "name": "item 1 cat 1",
-        "price": "1200",
-        "images": [
-            ""
-        ],
-        "category": "cat 1",
-        "description": "sfwerf",
-        "isTrending": false,
-        "old_price": null,
-        "out_Of_stock": true,
-        "isNew": true,
-        "product_sizes": null
-    },
-    {
         "id": "1-1",
-        "name": "y5gtr",
-        "price": "3",
+        "name": "wed",
+        "price": "123",
         "images": [
             ""
         ],
-        "category": "cat 2",
-        "description": "",
-        "isTrending": false,
-        "old_price": null,
-        "out_Of_stock": false,
-        "isNew": false,
-        "product_sizes": null
+        "category": "inele",
+        "description": "wefwef"
     }
 ]
