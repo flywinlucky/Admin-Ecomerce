@@ -162,19 +162,35 @@ function editProduct(productId) {
 function deleteProduct(productId) {
     const confirmation = confirm(`Sigur doriți să ștergeți produsul cu ID: ${productId}?`);
     if (confirmation) {
-        // Find the product index
+        // Găsim indexul produsului în array
         const productIndex = products.findIndex(product => product.id === productId);
         if (productIndex !== -1) {
-            products.splice(productIndex, 1); // Remove the product from the array
-            saveProductsToJSON(); // Update the JSON file
-            document.getElementById('productsContainer').innerHTML = ''; // Clear products display
-            products.forEach(product => displayProduct(product)); // Redisplay remaining products
+            // Eliminăm produsul din array
+            products.splice(productIndex, 1);
+
+            // Salvăm lista actualizată în JSON
+            saveProductsToJSON();
+
+            // Eliminăm produsul din DOM
+            const productElement = document.querySelector(`.product[data-id="${productId}"]`);
+            if (productElement) {
+                productElement.remove();
+            }
+
             alert(`Produsul cu ID: ${productId} a fost șters.`);
+
+            // Dacă nu mai există produse, afișăm un mesaj în container
+            if (products.length === 0) {
+                const productsContainer = document.getElementById('productsContainer');
+                productsContainer.innerHTML = '<p>Nu există produse disponibile.</p>';
+            }
         } else {
             alert("Produsul nu a fost găsit.");
         }
     }
 }
+
+
 
 function saveProductsToJSON() {
     fetch('save_product.php', {
@@ -182,7 +198,7 @@ function saveProductsToJSON() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(products) // Send the updated products list
+        body: JSON.stringify(products) // Trimite lista actualizată, inclusiv dacă este goală
     })
     .then(response => response.json())
     .then(data => {

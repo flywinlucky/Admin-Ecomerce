@@ -7,7 +7,7 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
 // Verificăm dacă datele primite sunt valide
-if ($data) {
+if ($data !== null) {
     // Calea către fișierul JSON unde stocăm produsele
     $filePath = 'json/products.json';
 
