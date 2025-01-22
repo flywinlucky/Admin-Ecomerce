@@ -31,8 +31,36 @@ function updateCategories() {
         categoryButton.textContent = category;
         categoryButton.className = 'categoryButton';
         categoryButton.onclick = () => selectCategory(category, index);
-        categoriesContainer.appendChild(categoryButton);
+
+        const deleteCategoryButton = document.createElement('button');
+        deleteCategoryButton.textContent = 'Șterge';
+        deleteCategoryButton.className = 'deleteCategoryButton';
+        deleteCategoryButton.onclick = () => deleteCategory(category, index);
+
+        const categoryContainer = document.createElement('div');
+        categoryContainer.className = 'categoryContainer';
+        categoryContainer.appendChild(categoryButton);
+        categoryContainer.appendChild(deleteCategoryButton);
+
+        categoriesContainer.appendChild(categoryContainer);
     });
+}
+
+function deleteCategory(category, index) {
+    const confirmation = confirm(`Sigur doriți să ștergeți categoria "${category}" și toate produsele din ea?`);
+    if (confirmation) {
+        // Remove the category
+        categories.splice(index, 1);
+        saveCategories();
+
+        // Remove all products in the category
+        products = products.filter(product => product.category !== category);
+        saveProductsToJSON();
+
+        // Update the UI
+        updateCategories();
+        displayAllProducts();
+    }
 }
 
 function saveCategories() {

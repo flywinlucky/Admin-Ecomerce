@@ -223,3 +223,23 @@ button:hover {
     border: 1px solid #ced4da;
     width: 200px;
 }
+
+.categoryContainer {
+    display: inline-block;
+    margin: 5px;
+}
+
+.deleteCategoryButton {
+    background-color: #dc3545; /* Red for Delete */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.deleteCategoryButton:hover {
+    background-color: #c82333; /* Darker red for hover */
+}
