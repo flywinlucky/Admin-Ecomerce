@@ -21,6 +21,8 @@
         <!-- Categoriile vor fi adăugate aici -->
     </div>
 
+    <div id="overlay"></div> <!-- Overlay for dimming background -->
+
     <div id="itemFormContainer" style="display: none;">
         <h2>Adaugă Produs în categoria <span id="selectedCategory"></span></h2>
         <form id="productForm">
@@ -57,6 +59,7 @@
             </div>
 
             <button type="button" onclick="saveProduct()">Salvează Produs</button>
+            <button type="button" class="cancelButton" onclick="resetProductForm()">Anulează</button>
         </form>
     </div>
 

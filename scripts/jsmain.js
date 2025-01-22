@@ -48,8 +48,24 @@ function loadCategories() {
 function selectCategory(category, index) {
     document.getElementById('selectedCategory').textContent = category;
     document.getElementById('itemFormContainer').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block'; // Show overlay
     document.getElementById('id').value = `${categoryCounter}-${productCounter}`; // Set unique ID based on category and product counter
     productCounter++; // Increment product counter
+    filterProductsByCategory(category); // Filter products by selected category
+}
+
+function filterProductsByCategory(category) {
+    const productsContainer = document.getElementById('productsContainer');
+    productsContainer.innerHTML = ''; // Clear previous products
+
+    const filteredProducts = products.filter(product => product.category === category);
+    filteredProducts.forEach(product => {
+        displayProduct(product); // Display each product in the selected category
+    });
+
+    if (filteredProducts.length === 0) {
+        productsContainer.innerHTML = '<p>Nu există produse disponibile în această categorie.</p>';
+    }
 }
 
 function saveProduct() {
@@ -137,6 +153,7 @@ function displayProduct(product) {
 function resetProductForm() {
     document.getElementById('productForm').reset(); // Reset all form fields
     document.getElementById('itemFormContainer').style.display = 'none'; // Hide the product form
+    document.getElementById('overlay').style.display = 'none'; // Hide overlay
 }
 
 function editProduct(productId) {
@@ -154,6 +171,7 @@ function editProduct(productId) {
         document.getElementById('product_sizes').value = product.product_sizes ? product.product_sizes.join(', ') : '';
 
         document.getElementById('itemFormContainer').style.display = 'block'; // Show form for editing
+        document.getElementById('overlay').style.display = 'block'; // Show overlay
     } else {
         alert("Produsul nu a fost găsit.");
     }
