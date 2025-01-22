@@ -69,12 +69,12 @@ function saveProduct() {
         },
         body: JSON.stringify(product)
     })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        resetProductForm(); // Reset form after saving
-    })
-    .catch(error => console.error('Eroare:', error));
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            resetProductForm(); // Reset form after saving
+        })
+        .catch(error => console.error('Eroare:', error));
 }
 
 function resetProductForm() {
