@@ -1,31 +1,16 @@
 [
     {
-        "id": "1-2",
-        "name": "curcan mare",
-        "price": "33333333333",
+        "id": "1-1",
+        "name": "inel 1dfd",
+        "price": "",
         "images": [
             ""
         ],
-        "category": "Inele",
-        "description": "ewf",
+        "category": "inele",
+        "description": "",
         "isTrending": false,
         "old_price": null,
-        "out_Of_stock": true,
-        "isNew": false,
-        "product_sizes": null
-    },
-    {
-        "id": "1-3",
-        "name": "inel ddddd",
-        "price": "123",
-        "images": [
-            "wef"
-        ],
-        "category": "Inele",
-        "description": "wef",
-        "isTrending": false,
-        "old_price": null,
-        "out_Of_stock": true,
+        "out_Of_stock": false,
         "isNew": false,
         "product_sizes": null
     }

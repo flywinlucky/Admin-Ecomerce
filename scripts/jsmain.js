@@ -109,8 +109,16 @@ function loadProducts() {
 function displayProduct(product) {
     const productsContainer = document.getElementById('productsContainer');
 
+    // Eliminați produsul existent din DOM dacă există
+    const existingProduct = document.querySelector(`.product[data-id="${product.id}"]`);
+    if (existingProduct) {
+        existingProduct.remove();
+    }
+
+    // Creați noul element pentru produs
     const productDiv = document.createElement('div');
     productDiv.className = 'product';
+    productDiv.setAttribute('data-id', product.id); // Adăugați un atribut pentru identificare
     productDiv.innerHTML = `
         <h3>${product.name}</h3>
         <p>ID: ${product.id}</p>
@@ -124,6 +132,7 @@ function displayProduct(product) {
 
     productsContainer.appendChild(productDiv);
 }
+
 
 function resetProductForm() {
     document.getElementById('productForm').reset(); // Reset all form fields
