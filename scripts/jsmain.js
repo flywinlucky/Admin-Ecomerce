@@ -189,13 +189,16 @@ function displayProduct(product) {
         <p>Description: ${product.description}</p>
         <p>Category: ${product.category}</p>
         <p>Images: ${product.images.join(', ')}</p>
+        ${product.isTrending ? '<p>Trending: Yes</p>' : ''}
+        ${product.old_price ? `<p>Old Price: ${product.old_price} MDL</p>` : ''}
+        ${product.isNew ? '<p>New: Yes</p>' : ''}
+        ${product.product_sizes ? `<p>Sizes: ${product.product_sizes.join(', ')}</p>` : ''}
         <button class="editButton" onclick="editProduct('${product.id}')">Editează</button>
         <button class="deleteButton" onclick="deleteProduct('${product.id}')">Șterge</button>
     `;
 
     productsContainer.appendChild(productDiv);
 }
-
 
 function resetProductForm() {
     document.getElementById('productForm').reset(); // Reset all form fields
