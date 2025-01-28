@@ -15,7 +15,7 @@ function addCategory() {
     if (categoryName) {
         categories.push(categoryName);
         updateCategories();
-        saveCategories(); // Save categories to Local Storage
+        saveCategoriesToJSON(); // Save categories to JSON file
         document.getElementById('categoryName').value = ''; // Clear input
         populateFilterDropdown(); // Update filter dropdown
     } else {
@@ -52,7 +52,7 @@ function deleteCategory(category, index) {
     if (confirmation) {
         // Remove the category
         categories.splice(index, 1);
-        saveCategories();
+        saveCategoriesToJSON();
 
         // Remove all products in the category
         products = products.filter(product => product.category !== category);
@@ -65,17 +65,34 @@ function deleteCategory(category, index) {
     }
 }
 
-function saveCategories() {
-    localStorage.setItem('categories', JSON.stringify(categories)); // Save categories to Local Storage
+function saveCategoriesToJSON() {
+    fetch('save_categories.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(categories) // Send updated categories list
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            console.log("Categorii salvate cu succes în JSON.");
+        } else {
+            console.error("Eroare la salvarea categoriilor:", data.message);
+        }
+    })
+    .catch(error => console.error('Eroare:', error));
 }
 
 function loadCategories() {
-    const storedCategories = localStorage.getItem('categories');
-    if (storedCategories) {
-        categories = JSON.parse(storedCategories);
-        updateCategories();
-        populateFilterDropdown(); // Update filter dropdown
-    }
+    fetch('json/categories.json')
+        .then(response => response.json())
+        .then(data => {
+            categories = data; // Save the categories to the global variable
+            updateCategories();
+            populateFilterDropdown(); // Update filter dropdown
+        })
+        .catch(error => console.error('Error loading categories:', error));
 }
 
 function selectCategory(category, index) {
